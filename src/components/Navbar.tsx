@@ -11,8 +11,8 @@ export default function Navbar({}) {
         level: 9,
         xp: 2000
       }}/>
-      <Button children={undefined}/>
-      <Button children={undefined}/>
+      {/* <Button children={undefined}></Button>
+      <Button children={undefined}></Button> */}
     </div>
   )
 }
