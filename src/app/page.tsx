@@ -38,7 +38,7 @@ export default function Home() {
         }
       <div className="bottom-1 absolute">
         <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)}></Navbar>
-        {JSON.stringify(location)}
+        {/* {JSON.stringify(location)} */}
       </div>
     </div>
   )
