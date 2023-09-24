@@ -9,6 +9,7 @@ import { RecognizeResponse } from "@/hooks/useSendRecognizeRequest";
 import Profile from "@/components/Profile";
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
+import useGetUserData from "@/hooks/useGetUserData";
 
 export default function Home() {
     const { width, height } = useWindowSize()
@@ -16,6 +17,7 @@ export default function Home() {
     const [currentPage, setCurrentPage] = useState("home");
     const [facingUser, setFacingUser] = useState(false);
     const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
+    const [userData, isLoading, triggerRefresh] = useGetUserData({userId: "Parth099"});
 
     const videoConstraints = {
         width: { min: 400 },
@@ -32,7 +34,8 @@ export default function Home() {
                 setLocation({ latitude, longitude });
             });
         }
-    }, []);
+        console.log(userData)
+    }, [isLoading]);
 
     const webcamRef = useRef<Webcam | null>(null);
     const capture = useCallback(() => {
