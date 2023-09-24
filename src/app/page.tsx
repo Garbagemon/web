@@ -33,12 +33,12 @@ export default function Home() {
     }
 }, []);
 
-    const [visibleMap, setVisibleMap] = useState(true);
-    const [userData, triggerRefresh] = useGetUserData({
-        userId: "12ACE",
-    });
+  const [visibleMap, setVisibleMap] = useState(true);
+  const [userData, triggerRefresh] = useGetUserData({
+      userId: "12ACE",
+  });
 
-    console.log(userData);
+  console.log(userData);
 
   if (currentPage == "home") {
     return (
@@ -67,7 +67,7 @@ export default function Home() {
     return (<Settings/>)
   } else if (currentPage == "profile") {
     return (
-    <div className="w-full h-full flex justify-center">
+    <div className="w-full h-full flex justify-center bg-white">
     <div className="bottom-5 absolute z-10">
       
     </div>
