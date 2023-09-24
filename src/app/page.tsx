@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import Map from "@/components/Map"
 import CameraControls from '@/components/CameraControls';
+import Settings from "@/components/settings";
 
 
 export default function Home() {
@@ -43,7 +44,11 @@ export default function Home() {
     return (
     <div className="w-full h-full flex justify-center">
       <div className="bottom-5 absolute z-10">
-        <Navbar cameraOnClick={() => setCurrentPage("camera")} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
+        <Navbar
+          cameraOnClick={() => setCurrentPage("camera")}
+          onClick={function () { setVisibleMap(!visibleMap)}}
+          settingsOnClick={() => { setCurrentPage("settings")}}
+          ></Navbar>
       </div>
       {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<div> </div>)}
     </div>)
@@ -58,5 +63,7 @@ export default function Home() {
             className="absolute z-20 rounded-[50px]"
           />
     </div>)
+  } else if (currentPage == "settings") {
+    return (<Settings/>)
   }
 }
