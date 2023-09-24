@@ -11,6 +11,7 @@ import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 import useGetUserData from "@/hooks/useGetUserData";
 import { Monster } from "@/components/MonsterPreview";
+import Settings from "@/components/settings";
 
 export default function Home() {
     const { width, height } = useWindowSize()
@@ -57,8 +58,6 @@ export default function Home() {
         if (base64part) setBase64Image(base64part);
     }, [webcamRef]);
 
-    const [visibleMap, setVisibleMap] = useState(true);
-
     useEffect(() => {
         if (!base64Image) return;
 
@@ -86,11 +85,11 @@ export default function Home() {
                         onClick={function () {
                             setCurrentPage("profile");
                         }}
-                        settingsOnClick={() => {}}
+                        settingsOnClick={() => {setCurrentPage("settings")}}
                         monster={monster}
                     ></Navbar>
                 </div>
-                {visibleMap && location ? <Map location={location as GeolocationCoordinates}></Map> : <div> </div>}
+                {location ? <Map location={location as GeolocationCoordinates}></Map> : <div> </div>}
             </div>
         );
     } else if (currentPage == "camera") {
@@ -125,5 +124,9 @@ export default function Home() {
       return (
         <Profile monster={monster} onClick={() => { setCurrentPage("home")}}/>
       )
+    } else if (currentPage == "settings") {
+        return (<Settings>
+            
+        </Settings>)
     }
 }
