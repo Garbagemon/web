@@ -7,17 +7,20 @@ import CameraControls from "@/components/CameraControls";
 import axios, { AxiosResponse } from "axios";
 import { RecognizeResponse } from "@/hooks/useSendRecognizeRequest";
 import Profile from "@/components/Profile";
+import useWindowSize from 'react-use/lib/useWindowSize'
+import Confetti from 'react-confetti'
 
 export default function Home() {
+    const { width, height } = useWindowSize()
     const [location, setLocation] = useState<Partial<GeolocationCoordinates> | null>();
     const [currentPage, setCurrentPage] = useState("home");
     const [facingUser, setFacingUser] = useState(false);
     const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
 
     const videoConstraints = {
-        width: { min: 480 },
+        width: { min: 400 },
         height: { min: 800 },
-        aspectRatio: 0.63,
+        aspectRatio: 0.50,
         facingMode: facingUser ? "user" : "environment",
     };
 
@@ -74,25 +77,29 @@ export default function Home() {
     } else if (currentPage == "camera") {
         return (
             <div className="w-full h-full flex justify-center bg-white p-10">
-                <div className="bottom-5 absolute z-10">
-                    <CameraControls
-                        onCloseClick={() => {
-                            setCurrentPage("home");
-                        }}
-                        switchCamera={() => {
-                            setFacingUser(!facingUser);
-                        }}
-                        onCameraShutter={capture}
-                    ></CameraControls>
-                </div>
-                <Webcam
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={videoConstraints}
-                    width={480}
-                    height={800}
-                    className="absolute z-20 rounded-[50px]"
-                    ref={webcamRef}
-                />
+              {/* <Confetti
+                width={width}
+                height={height}
+              /> */}
+              <div className="bottom-5 absolute z-10">
+                  <CameraControls
+                      onCloseClick={() => {
+                          setCurrentPage("home");
+                      }}
+                      switchCamera={() => {
+                          setFacingUser(!facingUser);
+                      }}
+                      onCameraShutter={capture}
+                  ></CameraControls>
+              </div>
+              <Webcam
+                  screenshotFormat="image/jpeg"
+                  videoConstraints={videoConstraints}
+                  width={400}
+                  height={800}
+                  className=""
+                  ref={webcamRef}
+              />
             </div>
         );
     } else if (currentPage == "profile") {
