@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export interface useSendRecognizeRequestProps {
     userId: string;
-    base64Image: string;
+    base64Image: string | undefined;
 }
 
 export interface RecognizeResponse {
@@ -16,11 +16,15 @@ export default function useSendRecognizeRequest(props: useSendRecognizeRequestPr
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        if (!props.base64Image) return;
+
         const { userId, base64Image: image } = props;
         const BACKEND_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL as string}/recognize`;
 
         setIsSuccess(false);
         setIsLoading(true);
+
+        console.log("sending:", image);
         const imagePost = axios.post<any, AxiosResponse<RecognizeResponse>>(BACKEND_URL, {
             userId,
             image,
