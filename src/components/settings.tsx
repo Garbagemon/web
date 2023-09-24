@@ -17,7 +17,7 @@ export default function Settings(){
         <div className="settings-container">
           <h1>Settings</h1>
           <div className="profile-picture">
-            {/* Implement profile picture upload and editing component here */}
+            {/* profile picture */}
           </div>
           <div className="setting-item">
             <label>Username:</label>
@@ -28,7 +28,7 @@ export default function Settings(){
             />
             <button>Edit Picture</button>
           </div>
-          {/* Repeat the above block for other settings */}
+          {/* Repeat  */}
           <div className="setting-item">
             <label>Password:</label>
             <input
