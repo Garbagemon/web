@@ -35,8 +35,7 @@ export default function Home() {
 
     const videoConstraints = {
         width: { min: 400 },
-        height: { min: 800 },
-        aspectRatio: 0.5,
+        aspectRatio: 0.50,
         facingMode: facingUser ? "user" : "environment",
     };
 
