@@ -24,7 +24,7 @@ export default function CameraControls({
             </Button>
             <Button onClick={onCameraShutter}>
                 <svg width="45" height="45" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="1.5" y="1" width="62" height="62" rx="31" fill="white" stroke="black" stroke-width="2" />
+                    <rect x="1.5" y="1" width="62" height="62" rx="31" fill="white" stroke="black" strokeWidth="2" />
                 </svg>
             </Button>
             <Button onClick={switchCamera}>

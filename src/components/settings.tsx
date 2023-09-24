@@ -16,7 +16,7 @@ export default function Settings(){
       };
     
       return (
-        <div className="settings-container">
+        <div className="w-full h-full bg-white">
           <h1>Settings</h1>
           <div className="profile-picture">
             {

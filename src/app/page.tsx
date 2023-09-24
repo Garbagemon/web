@@ -11,7 +11,6 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import useGetUserData from "@/hooks/useGetUserData";
 import { Monster } from "@/components/MonsterPreview";
-import Settings from "@/components/settings";
 import Image from 'next/image'
 
 export default function Home() {
@@ -85,7 +84,7 @@ export default function Home() {
             <div className="absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-200/70 p-5 text-black">
                 <form className="bg-white rounded-lg shadow-lg p-4 border flex flex-col gap-4 md:min-w-[350px]" onSubmit={userIdSubmit}>
                     <Image
-                    src="/LitterCritters.png"
+                    src="/LitterCrittersShadow.png"
                     width="500"
                     height="500"
                     alt="Litter Critters logo"
@@ -136,9 +135,9 @@ export default function Home() {
         return (
             <div className="w-full h-full flex justify-center bg-white p-10">
                 {/* <Confetti
-                width={width}
-                height={height}
-              /> */}
+                    width={width}
+                    height={height}
+                /> */}
                 <div className="bottom-5 absolute z-10">
                     <CameraControls
                         onCloseClick={() => {
