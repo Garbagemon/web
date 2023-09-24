@@ -1,11 +1,12 @@
 "use client"
 import Button from '@/components/Button';
-import MonsterPreview from '@/components/MonsterPreview';
+import { MonsterPreview } from '@/components/MonsterPreview';
 import Navbar from '@/components/Navbar';
 import { useEffect, useState } from 'react';
 import Webcam from "react-webcam";
 import Map from "@/components/Map"
-
+import Profile from '@/components/Profile';
+import { Monster } from '@/components/MonsterPreview';
 
 export default function Home() {
   const videoConstraints = {
@@ -45,7 +46,12 @@ export default function Home() {
         <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
         
       </div>
-      {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<div> </div>)}
+      {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<Profile monster={{
+          name: 'Watermon',
+          picture: './watermon.png',
+          level: 9,
+          xp: 90000
+        }} ></Profile>)}
     </div>
   )
 }
