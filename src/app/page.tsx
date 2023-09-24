@@ -25,10 +25,10 @@ export default function Home() {
     const userIdField = useRef<HTMLInputElement | null>(null);
 
     const [monster, setMonster] = useState<Monster>({
-        name: "Jugmon",
-        picture: "/jugmon.png",
-        level: 15,
-        xp: 3000,
+        name: "Bottlemon",
+        picture: "/bottlemon.png",
+        level: 1,
+        xp: 100,
     });
 
     const [userId, setUserId] = useState<string | null>();
@@ -116,6 +116,9 @@ export default function Home() {
     if (currentPage == "home") {
         return (
             <div className="w-full h-full flex justify-center">
+                <div className="top-5 absolute z-10 px-10 py-3 rounded-full overflow-auto">
+                    <Image src="/LitterCrittersShadow.png" width="500" height="500" alt="Litter Critters logo"/>
+                </div>
                 <div className="bottom-5 absolute z-10">
                     <Navbar
                         cameraOnClick={() => setCurrentPage("camera")}
