@@ -10,6 +10,7 @@ import Profile from "@/components/Profile";
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 import useGetUserData from "@/hooks/useGetUserData";
+import { Monster } from "@/components/MonsterPreview";
 
 export default function Home() {
     const { width, height } = useWindowSize()
@@ -18,6 +19,14 @@ export default function Home() {
     const [facingUser, setFacingUser] = useState(false);
     const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
     const [userData, isLoading, triggerRefresh] = useGetUserData({userId: "Parth099"});
+    const [monster, setMonster] = useState<Monster>({
+      name: "Jugmon",
+      picture: "/jugmon.png",
+      level: 15,
+      xp: 3000
+    })
+
+    const [userId, setUserId] = useState<string|null>();
 
     const videoConstraints = {
         width: { min: 400 },
@@ -62,6 +71,12 @@ export default function Home() {
         });
     }, [base64Image]);
 
+    if (!userId) {
+      return <div className="w-full h-full flex justify-center">
+        <input type="text" onChange={(e) => setUserId(e.target.value)}></input>
+      </div>
+    }
+
     if (currentPage == "home") {
         return (
             <div className="w-full h-full flex justify-center">
@@ -72,6 +87,7 @@ export default function Home() {
                             setCurrentPage("profile");
                         }}
                         settingsOnClick={() => {}}
+                        monster={monster}
                     ></Navbar>
                 </div>
                 {visibleMap && location ? <Map location={location as GeolocationCoordinates}></Map> : <div> </div>}
@@ -107,12 +123,7 @@ export default function Home() {
         );
     } else if (currentPage == "profile") {
       return (
-        <Profile monster={{
-          name: "Jugmon",
-          picture: "./jugmon.png",
-          level: 15,
-          xp: 3000
-        }} onClick={() => { setCurrentPage("home")}}/>
+        <Profile monster={monster} onClick={() => { setCurrentPage("home")}}/>
       )
     }
 }

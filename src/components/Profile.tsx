@@ -8,14 +8,14 @@ export default function Profile({monster, onClick}: {monster: Monster, onClick: 
     <div className="w-full h-full bg-white flex justify-center">
         <div className="md:w-1/4 w-full flex items-center gap-5 flex-col p-10 bg-white text-black text-2xl font-extrabold">
             <div className="rounded-full h-40 w-40 overflow-clip border-2 border-black bg-white ">
-                <Image src="/jugmon.png" width={500} height={500} alt="Picture of the author"/>
+                <Image src={monster.picture} width={500} height={500} alt="Picture of the author"/>
             </div>
             <h1 className=" select-none text-[2rem]">{monster.name}</h1>
             <h1 className="font-medium text-[1.7rem]"> Level {monster.level} </h1>
             <div className="flex flex-start flex-col w-full font-normal text-md gap-2">
-                <h1>9000 / 10000 XP</h1>
+                <h1>{monster.xp} / 10000 XP</h1>
                 <div className="h-6 w-full bg-slate-200 rounded-full border-2 border-black flex flex-start overflow-clip">
-                    <div className={`bg-green-400`} style={{width: `${9000.0/100}%`}}>
+                    <div className={`bg-green-400`} style={{width: `${monster.xp/100.0}%`}}>
 
                     </div>
                 </div>
