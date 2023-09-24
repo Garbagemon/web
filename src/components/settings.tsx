@@ -17,8 +17,12 @@ export default function Settings(){
         <div className="settings-container">
           <h1>Settings</h1>
           <div className="profile-picture">
-            {/* profile picture */}
+            {
+
+            }
           </div>
+          <button>Edit Picture</button>
+
           <div className="setting-item">
             <label>Username:</label>
             <input
@@ -26,7 +30,6 @@ export default function Settings(){
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <button>Edit Picture</button>
           </div>
           {/* Repeat  */}
           <div className="setting-item">
@@ -36,7 +39,22 @@ export default function Settings(){
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button>Edit Picture</button>
+          </div>
+          <div className="setting-item">
+            <label>Location:</label>
+            <input
+              type="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          </div>
+          <div className="setting-item">
+            <label>Location:</label>
+            <input
+              type="language"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            />
           </div>
           {/* Location, Language, Sound, Music, and Notifications settings */}
           {/* Use appropriate form elements for each setting */}
