@@ -4,6 +4,8 @@ import MonsterPreview from '@/components/MonsterPreview';
 import Navbar from '@/components/Navbar';
 import { useEffect, useState } from 'react';
 import Webcam from "react-webcam";
+import Map from "@/components/Map"
+
 
 export default function Home() {
   const videoConstraints = {
@@ -38,11 +40,11 @@ export default function Home() {
           :
           <></>
         }
-      <div className="bottom-5 absolute">
+      <div className="bottom-5 absolute z-10">
         <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
-        {/* {JSON.stringify(location)} */}
+        
       </div>
-      {(visibleMap) ? (<div className="w-full h-full bg-red-600"> </div>) : (<div> </div>)}
+      {(visibleMap) ? (<Map location={location}></Map>) : (<div> </div>)}
     </div>
   )
 }
