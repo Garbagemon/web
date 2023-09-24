@@ -1,19 +1,20 @@
-"use client"
-import Button from '@/components/Button';
-import MonsterPreview from '@/components/MonsterPreview';
-import Navbar from '@/components/Navbar';
-import { useEffect, useState } from 'react';
+"use client";
+import Button from "@/components/Button";
+import MonsterPreview from "@/components/MonsterPreview";
+import Navbar from "@/components/Navbar";
+import useGetUserData from "@/hooks/useGetUserData";
+import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import Map from "@/components/Map"
 
 
 export default function Home() {
-  const videoConstraints = {
-    width: { min: 480 },
-    height: { min: 720 },
-    aspectRatio: 0.6666666667,
-    facingMode: "environment"
-  };
+    const videoConstraints = {
+        width: { min: 480 },
+        height: { min: 720 },
+        aspectRatio: 0.6666666667,
+        facingMode: "environment",
+    };
 
   const [location, setLocation] = useState<Partial<GeolocationCoordinates>|null>()
   const [useWebcam, setUseWebcam] = useState(false)
@@ -28,7 +29,12 @@ export default function Home() {
     }
 }, []);
 
-  const [visibleMap, setVisibleMap] = useState(true)
+    const [visibleMap, setVisibleMap] = useState(true);
+    const [userData, triggerRefresh] = useGetUserData({
+        userId: "12ACE",
+    });
+
+    console.log(userData);
 
   return (
     <div className="w-full h-full flex justify-center">
