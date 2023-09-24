@@ -1,38 +1,41 @@
 "use client";
 import Navbar from "@/components/Navbar";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, FormEventHandler } from "react";
 import Webcam from "react-webcam";
 import Map from "@/components/Map";
 import CameraControls from "@/components/CameraControls";
 import axios, { AxiosResponse } from "axios";
 import { RecognizeResponse } from "@/hooks/useSendRecognizeRequest";
 import Profile from "@/components/Profile";
-import useWindowSize from 'react-use/lib/useWindowSize'
-import Confetti from 'react-confetti'
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
 import useGetUserData from "@/hooks/useGetUserData";
 import { Monster } from "@/components/MonsterPreview";
 import Settings from "@/components/settings";
 
 export default function Home() {
-    const { width, height } = useWindowSize()
+    const { width, height } = useWindowSize();
     const [location, setLocation] = useState<Partial<GeolocationCoordinates> | null>();
     const [currentPage, setCurrentPage] = useState("home");
     const [facingUser, setFacingUser] = useState(false);
     const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
-    const [userData, isLoading, triggerRefresh] = useGetUserData({userId: "Parth099"});
-    const [monster, setMonster] = useState<Monster>({
-      name: "Jugmon",
-      picture: "/jugmon.png",
-      level: 15,
-      xp: 3000
-    })
+    const [userData, isLoading, triggerRefresh] = useGetUserData({ userId: "Parth099" });
 
-    const [userId, setUserId] = useState<string|null>();
+    const userIdField = useRef<HTMLInputElement | null>(null);
+
+    const [monster, setMonster] = useState<Monster>({
+        name: "Jugmon",
+        picture: "/jugmon.png",
+        level: 15,
+        xp: 3000,
+    });
+
+    const [userId, setUserId] = useState<string | null>();
 
     const videoConstraints = {
         width: { min: 400 },
         height: { min: 800 },
-        aspectRatio: 0.50,
+        aspectRatio: 0.5,
         facingMode: facingUser ? "user" : "environment",
     };
 
@@ -44,7 +47,7 @@ export default function Home() {
                 setLocation({ latitude, longitude });
             });
         }
-        console.log(userData)
+        console.log(userData);
     }, [isLoading]);
 
     const webcamRef = useRef<Webcam | null>(null);
@@ -59,21 +62,49 @@ export default function Home() {
     }, [webcamRef]);
 
     useEffect(() => {
-        if (!base64Image) return;
+        if (!base64Image || !userId) return;
 
         const BACKEND_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL as string}/recognize`;
 
         console.log("sending:", base64Image);
         const imagePost = axios.post<any, AxiosResponse<RecognizeResponse>>(BACKEND_URL, {
-            userId: "Parth099",
+            userId,
             image: base64Image,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [base64Image]);
 
+    const userIdSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        if (!userIdField.current?.value) return;
+        setUserId(userIdField.current?.value);
+    };
+
     if (!userId) {
-      return <div className="w-full h-full flex justify-center">
-        <input type="text" onChange={(e) => setUserId(e.target.value)}></input>
-      </div>
+        return (
+            <div className="absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-200/70">
+                <form className="bg-white rounded-lg shadow-lg p-4 border flex flex-col gap-4 min-w-[350px]" onSubmit={userIdSubmit}>
+                    <label htmlFor="userId-field" className="text-xl font-bold">
+                        Select a Username:
+                    </label>
+                    <input
+                        type="text"
+                        minLength={5}
+                        ref={userIdField}
+                        className="p-2 text-lg border rounded shadow-md font-semibold"
+                        id="userId-field"
+                    />
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" type="submit">
+                        Submit
+                    </button>
+                    <hr />
+                    <div className="flex flex-col gap-1">
+                        <small>*Usernames needs to be of length 5 or higher.</small>
+                        <small>**Auth will be implemented in the future.</small>
+                    </div>
+                </form>
+            </div>
+        );
     }
 
     if (currentPage == "home") {
@@ -95,38 +126,32 @@ export default function Home() {
     } else if (currentPage == "camera") {
         return (
             <div className="w-full h-full flex justify-center bg-white p-10">
-              {/* <Confetti
+                {/* <Confetti
                 width={width}
                 height={height}
               /> */}
-              <div className="bottom-5 absolute z-10">
-                  <CameraControls
-                      onCloseClick={() => {
-                          setCurrentPage("home");
-                      }}
-                      switchCamera={() => {
-                          setFacingUser(!facingUser);
-                      }}
-                      onCameraShutter={capture}
-                  ></CameraControls>
-              </div>
-              <Webcam
-                  screenshotFormat="image/jpeg"
-                  videoConstraints={videoConstraints}
-                  width={400}
-                  height={800}
-                  className=""
-                  ref={webcamRef}
-              />
+                <div className="bottom-5 absolute z-10">
+                    <CameraControls
+                        onCloseClick={() => {
+                            setCurrentPage("home");
+                        }}
+                        switchCamera={() => {
+                            setFacingUser(!facingUser);
+                        }}
+                        onCameraShutter={capture}
+                    ></CameraControls>
+                </div>
+                <Webcam screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={400} height={800} className="" ref={webcamRef} />
             </div>
         );
     } else if (currentPage == "profile") {
-      return (
-        <Profile monster={monster} onClick={() => { setCurrentPage("home")}}/>
-      )
-    } else if (currentPage == "settings") {
-        return (<Settings>
-            
-        </Settings>)
+        return (
+            <Profile
+                monster={monster}
+                onClick={() => {
+                    setCurrentPage("home");
+                }}
+            />
+        );
     }
 }
