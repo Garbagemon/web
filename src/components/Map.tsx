@@ -7,6 +7,7 @@ export default function Map({location}: {location: GeolocationCoordinates}) {
     center: { lat: location.latitude, lng: location.longitude },
     zoom: 17,
     disableDefaultUI: true,
+    draggable: false,
   };
 
   function MyMap() {
