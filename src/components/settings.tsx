@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Slider from './Slider';
 
 export default function Settings(){
     const [username, setUsername] = useState(''); 
@@ -18,6 +19,9 @@ export default function Settings(){
           <h1>Settings</h1>
           <div className="profile-picture">
             {
+                <image>
+
+                </image>
 
             }
           </div>
@@ -31,7 +35,7 @@ export default function Settings(){
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          {/* Repeat  */}
+          
           <div className="setting-item">
             <label>Password:</label>
             <input
@@ -49,17 +53,25 @@ export default function Settings(){
             />
           </div>
           <div className="setting-item">
-            <label>Location:</label>
+            <label>Language:</label>
             <input
               type="language"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             />
           </div>
-          {/* Location, Language, Sound, Music, and Notifications settings */}
-          {/* Use appropriate form elements for each setting */}
-          {/* Implement sound and music volume bars */}
-          {/* Implement notifications toggle */}
+
+          <div>
+            <Slider
+                label="Sound Volume"
+                value={soundVolume}
+            />
+            <Slider
+                label="Music Volume"
+                value={musicVolume}
+            />
+          </div>
+
           <div className="actions">
             <button onClick={saveSettings}>Save Settings</button>
           </div>
