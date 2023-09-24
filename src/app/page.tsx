@@ -31,6 +31,25 @@ export default function Home() {
         xp: pointValue,
     });
 
+    useEffect(() => {
+        console.log(`Monsters: ${monster}`)
+        if (monster.level > 5) {
+            setMonster({
+                name: "Gallonmon",
+                picture: "/gallonmon.png",
+                level: Math.ceil(pointValue / 50),
+                xp: pointValue,
+            })
+        } else if (monster.level > 10) {
+            setMonster({
+                name: "Jugmon",
+                picture: "/jugmon.png",
+                level: Math.ceil(pointValue / 50),
+                xp: pointValue,
+            })
+        }
+    }, [monster])
+
     console.log("pointers", pointValue);
 
     const [userId, setUserId] = useState<string | null>();
