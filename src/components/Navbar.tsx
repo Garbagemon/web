@@ -1,20 +1,28 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { Monster, MonsterPreview } from "./MonsterPreview";
 
 
 export default function Navbar({monster, cameraOnClick, onClick, settingsOnClick}: {monster: Monster, cameraOnClick: MouseEventHandler<HTMLDivElement>, onClick: MouseEventHandler<HTMLDivElement>, settingsOnClick:  MouseEventHandler<HTMLDivElement>}) {
-  const [musicOn, setMusicOn] = useState(true)
+  const [audioStatus, changeAudioStatus] = useState(true);
+  const myRef = useRef<HTMLAudioElement|null>(null);
 
-  let audio = new Audio("/music.mp3")
+  const startAudio = () => {
+    if (!myRef.current) return;
+    myRef.current.play();
+
+    changeAudioStatus(true);
+  };
+
+  const pauseAudio = () => {
+    if (!myRef.current) return;
+    myRef.current.pause();
+    changeAudioStatus(false);
+  };
 
   useEffect(() => {
-    if (musicOn) {
-      audio.play()
-    } else {
-      audio.pause()
-    };
-  }, [musicOn])
+    startAudio()
+  }, [myRef])
   
   return (
     <div className="flex flex-row gap-16 p-2 rounded-[75px]">
@@ -32,12 +40,22 @@ export default function Navbar({monster, cameraOnClick, onClick, settingsOnClick
             </defs>
           </svg>
         </Button>
-        <Button onClick={() => {setMusicOn(!musicOn)}}>
-        {(musicOn) ? (<svg width="20" height="30" viewBox="0 0 48 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <Button onClick={() => {
+          if (audioStatus) {
+            startAudio()
+          } else {
+            pauseAudio()
+          }
+        }}>
+        {(audioStatus) ? (<svg width="20" height="30" viewBox="0 0 48 72" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M24 0V42.2C21.64 40.84 18.92 40 16 40C7.16 40 0 47.16 0 56C0 64.84 7.16 72 16 72C24.84 72 32 64.84 32 56V16H48V0H24Z" fill="white"/>
         </svg>) : (<svg width="25" height="30" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.08 0L0 5.08L36 41.08V42.2C33.64 40.84 30.92 40 28 40C19.16 40 12 47.16 12 56C12 64.84 19.16 72 28 72C36.84 72 44 64.84 44 56V49.08L66.92 72L72 66.92L5.08 0ZM44 16H60V0H36V20.72L44 28.72V16Z" fill="white"/></svg>)}
         </Button>
+        <audio
+        ref={myRef}
+        src="/music.mp3"
+      />
     </div>
   )
 }
