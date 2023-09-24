@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import useCount from "./useCount";
 import axios, { AxiosResponse } from "axios";
 
@@ -11,16 +11,20 @@ export interface UserData {
 }
 
 export interface useGetUserDataProps {
-    userId: string;
+    userId?: string | null;
 }
 
-export default function useGetUserData(props: useGetUserDataProps) {
+type useGetUserDataReturnType = [UserData | null, boolean, () => void];
+
+export default function useGetUserData(props: useGetUserDataProps): useGetUserDataReturnType {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const [refresh, triggerRefresh] = useCount();
 
     useEffect(() => {
+        if (!props.userId) return;
+
         const BACKEND_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL as string}/get-userdata`;
 
         setIsLoading(true);

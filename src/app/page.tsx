@@ -11,7 +11,8 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import useGetUserData from "@/hooks/useGetUserData";
 import { Monster } from "@/components/MonsterPreview";
-import Image from 'next/image'
+import Settings from "@/components/settings";
+import Image from "next/image";
 
 export default function Home() {
     const { width, height } = useWindowSize();
@@ -19,22 +20,25 @@ export default function Home() {
     const [currentPage, setCurrentPage] = useState("home");
     const [facingUser, setFacingUser] = useState(false);
     const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
-    const [userData, isLoading, triggerRefresh] = useGetUserData({ userId: "Parth099" });
+    const [pointValue, setPointValue] = useState(0);
 
     const userIdField = useRef<HTMLInputElement | null>(null);
 
     const [monster, setMonster] = useState<Monster>({
         name: "Bottlemon",
         picture: "/bottlemon.png",
-        level: 1,
-        xp: 100,
+        level: Math.ceil(pointValue / 50),
+        xp: pointValue,
     });
 
+    console.log("pointers", pointValue);
+
     const [userId, setUserId] = useState<string | null>();
+    const [userData, isLoading, triggerRefresh] = useGetUserData({ userId });
 
     const videoConstraints = {
         width: { min: 400 },
-        aspectRatio: 0.50,
+        aspectRatio: 0.5,
         facingMode: facingUser ? "user" : "environment",
     };
 
@@ -48,6 +52,23 @@ export default function Home() {
         }
         console.log(userData);
     }, [isLoading]);
+
+    useEffect(() => {
+        if (!userData) return;
+        if (!userData.data) return;
+
+        let points = 0;
+
+        const { collection } = userData.data;
+
+        Object.keys(collection).forEach((key) => {
+            if (typeof collection[key] === "number") {
+                points += collection[key];
+            }
+        });
+
+        setPointValue(points);
+    }, [userData]);
 
     const webcamRef = useRef<Webcam | null>(null);
     const capture = useCallback(() => {
@@ -70,6 +91,8 @@ export default function Home() {
             userId,
             image: base64Image,
         });
+
+        imagePost.finally(() => triggerRefresh());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [base64Image]);
 
@@ -116,7 +139,7 @@ export default function Home() {
         return (
             <div className="w-full h-full flex justify-center">
                 <div className="top-5 absolute z-10 px-10 py-3 rounded-full overflow-auto">
-                    <Image src="/LitterCrittersShadow.png" width="500" height="500" alt="Litter Critters logo"/>
+                    <Image src="/LitterCrittersShadow.png" width="500" height="500" alt="Litter Critters logo" />
                 </div>
                 <div className="bottom-5 absolute z-10">
                     <Navbar
@@ -124,7 +147,9 @@ export default function Home() {
                         onClick={function () {
                             setCurrentPage("profile");
                         }}
-                        settingsOnClick={() => {setCurrentPage("settings")}}
+                        settingsOnClick={() => {
+                            setCurrentPage("settings");
+                        }}
                         monster={monster}
                     ></Navbar>
                 </div>
