@@ -3,7 +3,7 @@ import Button from "./Button";
 import MonsterPreview from "./MonsterPreview";
 
 
-export default function Navbar({cameraOnClick}: {cameraOnClick: MouseEventHandler<HTMLDivElement>}) {
+export default function Navbar({cameraOnClick, onClick}: {cameraOnClick: MouseEventHandler<HTMLDivElement>, onClick: MouseEventHandler<HTMLDivElement>}) {
   return (
     <div className="flex flex-row gap-10">
       <MonsterPreview monster={{
@@ -11,7 +11,7 @@ export default function Navbar({cameraOnClick}: {cameraOnClick: MouseEventHandle
           picture: './watermon.png',
           level: 9,
           xp: 9000
-        }}/>
+        }} onClick={onClick}/>
         <Button onClick={cameraOnClick}>
         <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_2_5)">

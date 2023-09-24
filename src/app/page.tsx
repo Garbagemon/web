@@ -4,6 +4,8 @@ import MonsterPreview from '@/components/MonsterPreview';
 import Navbar from '@/components/Navbar';
 import { useEffect, useState } from 'react';
 import Webcam from "react-webcam";
+import Map from "@/components/Map"
+
 
 export default function Home() {
   const videoConstraints = {
@@ -13,7 +15,7 @@ export default function Home() {
     facingMode: "environment"
   };
 
-  const [location, setLocation] = useState({})
+  const [location, setLocation] = useState<Partial<GeolocationCoordinates>|null>()
   const [useWebcam, setUseWebcam] = useState(false)
   
   useEffect(() => {
@@ -26,20 +28,24 @@ export default function Home() {
     }
 }, []);
 
+  const [visibleMap, setVisibleMap] = useState(true)
+
   return (
     <div className="w-full h-full flex justify-center">
       { useWebcam ?
           <Webcam videoConstraints={videoConstraints} 
             width={480} 
             height={720}
+            className="absolute z-20 rounded-[50px]"
           />
           :
           <></>
         }
-      <div className="bottom-5 absolute">
-        <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)}></Navbar>
-        {/* {JSON.stringify(location)} */}
+      <div className="bottom-5 absolute z-10">
+        <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
+        
       </div>
+      {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<div> </div>)}
     </div>
   )
 }

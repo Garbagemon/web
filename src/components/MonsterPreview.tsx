@@ -8,12 +8,13 @@ type Monster = {
 }
 
 import Image from 'next/image'
+import { MouseEventHandler } from 'react'
 
-export default function MonsterPreview({monster}: {monster: Monster}) {
+export default function MonsterPreview({monster, onClick}: {monster: Monster, onClick: MouseEventHandler<HTMLDivElement>}) {
   return (
-    <div className="rounded-full h-20 w-20 overflow-clip border-2">
+    <div className="rounded-full h-20 w-20 overflow-clip border-2 bg-white" onClick={onClick}>
        <Image
-          src="/watermon.png"
+          src="/jugmon.png"
           width={500}
           height={500}
           alt="Picture of the author"
