@@ -36,6 +36,7 @@ export default function Home() {
           <Webcam videoConstraints={videoConstraints} 
             width={480} 
             height={720}
+            className="absolute z-20 rounded-[50px]"
           />
           :
           <></>
