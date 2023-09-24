@@ -6,18 +6,21 @@ import useGetUserData from "@/hooks/useGetUserData";
 import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import Map from "@/components/Map"
+import CameraControls from '@/components/CameraControls';
 
 
 export default function Home() {
-    const videoConstraints = {
-        width: { min: 480 },
-        height: { min: 720 },
-        aspectRatio: 0.6666666667,
-        facingMode: "environment",
-    };
 
   const [location, setLocation] = useState<Partial<GeolocationCoordinates>|null>()
-  const [useWebcam, setUseWebcam] = useState(false)
+  const [currentPage, setCurrentPage] = useState("home");
+  const [facingUser, setFacingUser] = useState(false)
+
+  const videoConstraints = {
+    width: { min: 480 },
+    height: { min: 720 },
+    aspectRatio: 0.6666666667,
+    facingMode: facingUser ? "user" : "environment"
+  };
   
   useEffect(() => {
     if('geolocation' in navigator) {
@@ -36,22 +39,24 @@ export default function Home() {
 
     console.log(userData);
 
-  return (
+  if (currentPage == "home") {
+    return (
     <div className="w-full h-full flex justify-center">
-      { useWebcam ?
-          <Webcam videoConstraints={videoConstraints} 
+      <div className="bottom-5 absolute z-10">
+        <Navbar cameraOnClick={() => setCurrentPage("camera")} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
+      </div>
+      {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<div> </div>)}
+    </div>)
+  } else if (currentPage == "camera") {
+    return (<div className="w-full h-full flex justify-center">
+      <div className="bottom-5 absolute z-10">
+        <CameraControls onCloseClick={() => {setCurrentPage("home")}} switchCamera={() => { setFacingUser(!facingUser) }}></CameraControls>
+      </div>
+      <Webcam videoConstraints={videoConstraints} 
             width={480} 
             height={720}
             className="absolute z-20 rounded-[50px]"
           />
-          :
-          <></>
-        }
-      <div className="bottom-5 absolute z-10">
-        <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
-        
-      </div>
-      {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<div> </div>)}
-    </div>
-  )
+    </div>)
+  }
 }
