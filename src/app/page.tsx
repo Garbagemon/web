@@ -6,6 +6,7 @@ import Map from "@/components/Map";
 import CameraControls from "@/components/CameraControls";
 import axios, { AxiosResponse } from "axios";
 import { RecognizeResponse } from "@/hooks/useSendRecognizeRequest";
+import Profile from "@/components/Profile";
 
 export default function Home() {
     const [location, setLocation] = useState<Partial<GeolocationCoordinates> | null>();
@@ -15,8 +16,8 @@ export default function Home() {
 
     const videoConstraints = {
         width: { min: 480 },
-        height: { min: 720 },
-        aspectRatio: 0.6666666667,
+        height: { min: 800 },
+        aspectRatio: 0.63,
         facingMode: facingUser ? "user" : "environment",
     };
 
@@ -62,7 +63,7 @@ export default function Home() {
                     <Navbar
                         cameraOnClick={() => setCurrentPage("camera")}
                         onClick={function () {
-                            setVisibleMap(!visibleMap);
+                            setCurrentPage("profile");
                         }}
                         settingsOnClick={() => {}}
                     ></Navbar>
@@ -72,7 +73,7 @@ export default function Home() {
         );
     } else if (currentPage == "camera") {
         return (
-            <div className="w-full h-full flex justify-center">
+            <div className="w-full h-full flex justify-center bg-white p-10">
                 <div className="bottom-5 absolute z-10">
                     <CameraControls
                         onCloseClick={() => {
@@ -88,11 +89,20 @@ export default function Home() {
                     screenshotFormat="image/jpeg"
                     videoConstraints={videoConstraints}
                     width={480}
-                    height={720}
+                    height={800}
                     className="absolute z-20 rounded-[50px]"
                     ref={webcamRef}
                 />
             </div>
         );
+    } else if (currentPage == "profile") {
+      return (
+        <Profile monster={{
+          name: "Jugmon",
+          picture: "./jugmon.png",
+          level: 15,
+          xp: 3000
+        }} onClick={() => { setCurrentPage("home")}}/>
+      )
     }
 }
