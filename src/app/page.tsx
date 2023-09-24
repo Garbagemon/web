@@ -26,6 +26,8 @@ export default function Home() {
     }
 }, []);
 
+  const [visibleMap, setVisibleMap] = useState(true)
+
   return (
     <div className="w-full h-full flex justify-center">
       { useWebcam ?
@@ -37,12 +39,10 @@ export default function Home() {
           <></>
         }
       <div className="bottom-5 absolute">
-        <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { console.log("Hello! I'm clicked")}}></Navbar>
+        <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
         {/* {JSON.stringify(location)} */}
       </div>
-      <div className="w-full h-full bg-red-600">
-        
-      </div>
+      {(visibleMap) ? (<div className="w-full h-full bg-red-600"> </div>) : (<div> </div>)}
     </div>
   )
 }
