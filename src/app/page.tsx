@@ -1,8 +1,9 @@
-"use client"
-import Button from '@/components/Button';
-import MonsterPreview from '@/components/MonsterPreview';
-import Navbar from '@/components/Navbar';
-import { ReactNode, useEffect, useState } from 'react';
+"use client";
+import Button from "@/components/Button";
+import MonsterPreview from "@/components/MonsterPreview";
+import Navbar from "@/components/Navbar";
+import useGetUserData from "@/hooks/useGetUserData";
+import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import Map from "@/components/Map"
 import CameraControls from '@/components/CameraControls';
@@ -31,7 +32,12 @@ export default function Home() {
     }
 }, []);
 
-  const [visibleMap, setVisibleMap] = useState(true)
+    const [visibleMap, setVisibleMap] = useState(true);
+    const [userData, triggerRefresh] = useGetUserData({
+        userId: "12ACE",
+    });
+
+    console.log(userData);
 
   if (currentPage == "home") {
     return (
