@@ -6,12 +6,17 @@ import Map from "@/components/Map";
 import CameraControls from "@/components/CameraControls";
 import axios, { AxiosResponse } from "axios";
 import { RecognizeResponse } from "@/hooks/useSendRecognizeRequest";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Home() {
     const [location, setLocation] = useState<Partial<GeolocationCoordinates> | null>();
     const [currentPage, setCurrentPage] = useState("home");
     const [facingUser, setFacingUser] = useState(false);
     const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
+
+    const { user, error, isLoading } = useUser();
+
+    console.log(user, error, isLoading);
 
     const videoConstraints = {
         width: { min: 480 },
