@@ -1,7 +1,5 @@
 import { MouseEventHandler, useState } from "react";
 import Button from "./Button";
-import MonsterPreview from "./MonsterPreview";
-
 
 export default function CameraControls({onCloseClick, switchCamera}: {onCloseClick: MouseEventHandler<HTMLDivElement>, switchCamera: MouseEventHandler<HTMLDivElement>}) {
   return (

@@ -1,6 +1,5 @@
 "use client";
 import Button from "@/components/Button";
-import MonsterPreview from "@/components/MonsterPreview";
 import Navbar from "@/components/Navbar";
 import useGetUserData from "@/hooks/useGetUserData";
 import { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import Webcam from "react-webcam";
 import Map from "@/components/Map"
 import CameraControls from '@/components/CameraControls';
 import Settings from "@/components/settings";
+import Profile from "@/components/Profile";
 
 
 export default function Home() {
@@ -46,7 +46,7 @@ export default function Home() {
       <div className="bottom-5 absolute z-10">
         <Navbar
           cameraOnClick={() => setCurrentPage("camera")}
-          onClick={function () { setVisibleMap(!visibleMap)}}
+          onClick={function () { setCurrentPage("profile")}}
           settingsOnClick={() => { setCurrentPage("settings")}}
           ></Navbar>
       </div>
@@ -65,5 +65,18 @@ export default function Home() {
     </div>)
   } else if (currentPage == "settings") {
     return (<Settings/>)
+  } else if (currentPage == "profile") {
+    return (
+    <div className="w-full h-full flex justify-center">
+    <div className="bottom-5 absolute z-10">
+      
+    </div>
+    <Profile monster={{
+      name: "Garbagemon",
+      picture: "./watermon.png",
+      level: 9,
+      xp: 9000
+    }}/>
+  </div>)
   }
 }
