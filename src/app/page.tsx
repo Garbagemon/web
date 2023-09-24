@@ -1,48 +1,52 @@
-"use client"
-import Button from '@/components/Button';
-import MonsterPreview from '@/components/MonsterPreview';
-import Navbar from '@/components/Navbar';
-import { useEffect, useState } from 'react';
+"use client";
+import Button from "@/components/Button";
+import MonsterPreview from "@/components/MonsterPreview";
+import Navbar from "@/components/Navbar";
+import useGetUserData from "@/hooks/useGetUserData";
+import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 
 export default function Home() {
-  const videoConstraints = {
-    width: { min: 480 },
-    height: { min: 720 },
-    aspectRatio: 0.6666666667,
-    facingMode: "environment"
-  };
+    const videoConstraints = {
+        width: { min: 480 },
+        height: { min: 720 },
+        aspectRatio: 0.6666666667,
+        facingMode: "environment",
+    };
 
-  const [location, setLocation] = useState({})
-  const [useWebcam, setUseWebcam] = useState(false)
-  
-  useEffect(() => {
-    if('geolocation' in navigator) {
-        // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-        navigator.geolocation.getCurrentPosition(({ coords }) => {
-            const { latitude, longitude } = coords;
-            setLocation({ latitude, longitude });
-        })
-    }
-}, []);
+    const [location, setLocation] = useState({});
+    const [useWebcam, setUseWebcam] = useState(false);
 
-  const [visibleMap, setVisibleMap] = useState(true)
-
-  return (
-    <div className="w-full h-full flex justify-center">
-      { useWebcam ?
-          <Webcam videoConstraints={videoConstraints} 
-            width={480} 
-            height={720}
-          />
-          :
-          <></>
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+                const { latitude, longitude } = coords;
+                setLocation({ latitude, longitude });
+            });
         }
-      <div className="bottom-5 absolute">
-        <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
-        {/* {JSON.stringify(location)} */}
-      </div>
-      {(visibleMap) ? (<div className="w-full h-full bg-red-600"> </div>) : (<div> </div>)}
-    </div>
-  )
+    }, []);
+
+    const [visibleMap, setVisibleMap] = useState(true);
+    const [userData, triggerRefresh] = useGetUserData({
+        userId: "12ACE",
+    });
+
+    console.log(userData);
+
+    return (
+        <div className="w-full h-full flex justify-center">
+            {useWebcam ? <Webcam videoConstraints={videoConstraints} width={480} height={720} /> : <></>}
+            <div className="bottom-5 absolute">
+                <Navbar
+                    cameraOnClick={() => setUseWebcam(!useWebcam)}
+                    onClick={function () {
+                        setVisibleMap(!visibleMap);
+                    }}
+                ></Navbar>
+                {/* {JSON.stringify(location)} */}
+            </div>
+            {visibleMap ? <div className="w-full h-full bg-red-600"> </div> : <div> </div>}
+        </div>
+    );
 }
