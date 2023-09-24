@@ -32,25 +32,24 @@ export default function Home() {
     });
 
     useEffect(() => {
-        console.log(`Monsters: ${monster}`)
-        if (monster.level > 5) {
+        const level = Math.ceil(pointValue / 50);
+
+        if (level > 5) {
             setMonster({
                 name: "Gallonmon",
                 picture: "/gallonmon.png",
                 level: Math.ceil(pointValue / 50),
                 xp: pointValue,
-            })
-        } else if (monster.level > 10) {
+            });
+        } else if (level > 10) {
             setMonster({
                 name: "Jugmon",
                 picture: "/jugmon.png",
-                level: Math.ceil(pointValue / 50),
+                level: Math.ceil(pointValue / 50.0),
                 xp: pointValue,
-            })
+            });
         }
-    }, [monster])
-
-    console.log("pointers", pointValue);
+    }, [pointValue]);
 
     const [userId, setUserId] = useState<string | null>();
     const [userData, isLoading, triggerRefresh] = useGetUserData({ userId });
@@ -125,12 +124,7 @@ export default function Home() {
         return (
             <div className="absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-200/70 p-5 text-black">
                 <form className="bg-white rounded-lg shadow-lg p-4 border flex flex-col gap-4 md:min-w-[350px]" onSubmit={userIdSubmit}>
-                    <Image
-                    src="/LitterCrittersShadow.png"
-                    width="500"
-                    height="500"
-                    alt="Litter Critters logo"
-                    />
+                    <Image src="/LitterCrittersShadow.png" width="500" height="500" alt="Litter Critters logo" />
                     <label htmlFor="userId-field" className="text-xl font-bold ">
                         Select a Username:
                     </label>
