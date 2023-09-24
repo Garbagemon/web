@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Slider from './Slider';
+import NotificationSwitch from './NotificationSwitch';
 
 export default function Settings(){
     const [username, setUsername] = useState(''); 
@@ -71,6 +72,8 @@ export default function Settings(){
                 value={musicVolume}
             />
           </div>
+
+          <NotificationSwitch></NotificationSwitch>
 
           <div className="actions">
             <button onClick={saveSettings}>Save Settings</button>
