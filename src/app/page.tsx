@@ -15,7 +15,7 @@ export default function Home() {
     facingMode: "environment"
   };
 
-  const [location, setLocation] = useState({})
+  const [location, setLocation] = useState<Partial<GeolocationCoordinates>|null>()
   const [useWebcam, setUseWebcam] = useState(false)
   
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Home() {
         <Navbar cameraOnClick={() => setUseWebcam(!useWebcam)} onClick={function () { setVisibleMap(!visibleMap)}}></Navbar>
         
       </div>
-      {(visibleMap) ? (<Map location={location}></Map>) : (<div> </div>)}
+      {(visibleMap && location) ? (<Map location={location as GeolocationCoordinates}></Map>) : (<div> </div>)}
     </div>
   )
 }
