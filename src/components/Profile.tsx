@@ -15,7 +15,7 @@ export default function Profile({ monster, onClick }: { monster: Monster; onClic
                 <div className="flex flex-start flex-col w-full font-normal text-md gap-2">
                     <h1>{monster.xp % 50} / 50 XP</h1>
                     <div className="h-6 w-full bg-slate-200 rounded-full border-2 border-black flex flex-start overflow-clip">
-                        <div className={`bg-green-400`} style={{ width: `${(monster.xp % 50) / 50.0}%` }}></div>
+                        <div className={`bg-green-400`} style={{ width: `${((monster.xp % 50) / 50.0) * 100}%` }}></div>
                     </div>
                     <h1>Overall Lifetime: {monster.xp}</h1>
                 </div>

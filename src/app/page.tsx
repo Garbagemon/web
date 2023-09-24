@@ -33,19 +33,18 @@ export default function Home() {
 
     useEffect(() => {
         const level = Math.ceil(pointValue / 50);
-
-        if (level > 5) {
-            setMonster({
-                name: "Gallonmon",
-                picture: "/gallonmon.png",
-                level: Math.ceil(pointValue / 50),
-                xp: pointValue,
-            });
-        } else if (level > 10) {
+        if (level > 10) {
             setMonster({
                 name: "Jugmon",
                 picture: "/jugmon.png",
                 level: Math.ceil(pointValue / 50.0),
+                xp: pointValue,
+            });
+        } else if (level > 5) {
+            setMonster({
+                name: "Gallonmon",
+                picture: "/gallonmon.png",
+                level: Math.ceil(pointValue / 50),
                 xp: pointValue,
             });
         }
