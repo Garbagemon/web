@@ -12,6 +12,7 @@ import Confetti from "react-confetti";
 import useGetUserData from "@/hooks/useGetUserData";
 import { Monster } from "@/components/MonsterPreview";
 import Settings from "@/components/settings";
+import Image from 'next/image'
 
 export default function Home() {
     const { width, height } = useWindowSize();
@@ -82,9 +83,15 @@ export default function Home() {
 
     if (!userId) {
         return (
-            <div className="absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-200/70">
-                <form className="bg-white rounded-lg shadow-lg p-4 border flex flex-col gap-4 min-w-[350px]" onSubmit={userIdSubmit}>
-                    <label htmlFor="userId-field" className="text-xl font-bold">
+            <div className="absolute top-0 left-0 flex justify-center items-center w-screen h-screen bg-gray-200/70 p-5 text-black">
+                <form className="bg-white rounded-lg shadow-lg p-4 border flex flex-col gap-4 md:min-w-[350px]" onSubmit={userIdSubmit}>
+                    <Image
+                    src="/LitterCritters.png"
+                    width="500"
+                    height="500"
+                    alt="Litter Critters logo"
+                    />
+                    <label htmlFor="userId-field" className="text-xl font-bold ">
                         Select a Username:
                     </label>
                     <input
