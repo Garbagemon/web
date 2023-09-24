@@ -1,6 +1,6 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
 import Button from "./Button";
-import MonsterPreview from "./MonsterPreview";
+import {MonsterPreview} from "./MonsterPreview";
 
 
 export default function Navbar({cameraOnClick, onClick}: {cameraOnClick: MouseEventHandler<HTMLDivElement>, onClick: MouseEventHandler<HTMLDivElement>}) {
